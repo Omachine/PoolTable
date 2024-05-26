@@ -221,12 +221,14 @@ namespace LoadBall
 	void Ball::ReadMTL(char* mtl_model_filepath)
 	{
 		
+		std::string folder = "Objects/";
+		std::string fullPath = folder + mtl_model_filepath;
 
 		char lineHeader[128];
 
 		FILE* mtlFile;
 		errno_t err;
-		err = fopen_s(&mtlFile, mtl_model_filepath, "r");
+		err = fopen_s(&mtlFile, fullPath.c_str(), "r");
 		if (mtlFile == NULL) {
 			printf("Impossible to open the file !\n");
 			return;
@@ -274,10 +276,9 @@ namespace LoadBall
 
 	}
 
-	void Ball:: LoadTexture(const char* texture_filepath) {
+	void Ball::LoadTexture(const char* texture_filepath) {
 		// Generate a texture name
 		glGenTextures(1, &textureIndices);
-
 
 		// Bind this texture name to the GL_TEXTURE_2D target of the active Texture Unit.
 		glBindTexture(GL_TEXTURE_2D, textureIndices);
@@ -293,8 +294,13 @@ namespace LoadBall
 		int width, height, nChannels;
 		// Activate the vertical inversion of the image, when reading it into CPU memory.
 		stbi_set_flip_vertically_on_load(true);
+
+		// Prepend the folder name to the texture filename
+		std::string folder = "Textures/";
+		std::string fullPath = folder + texture_filepath;
+
 		// Read the image into CPU memory
-		unsigned char* imageData = stbi_load(texture_filepath, &width, &height, &nChannels, 0);
+		unsigned char* imageData = stbi_load(fullPath.c_str(), &width, &height, &nChannels, 0);
 		if (imageData) {
 			// Load the image data into the Texture Object bound to the GL_TEXTURE_2D target of the active Texture Unit.
 			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, nChannels == 4 ? GL_RGBA : GL_RGB, GL_UNSIGNED_BYTE, imageData);
@@ -309,5 +315,6 @@ namespace LoadBall
 			std::cout << "Error loading texture!" << std::endl;
 		}
 	}
+
 
 }
