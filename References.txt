@@ -1,0 +1,8 @@
+Referências usadas e matriais de assisênica para a elaboração do projeto:
+- Github Copilot
+- PWP dsiponibilizados pelo professor no Moodle
+- https://en.wikipedia.org/wiki/Wavefront_.obj_file 
+- https://www.khronos.org/opengl/wiki/Vertex_Specification
+- https://learnopengl.com/Getting-started
+- https://www.youtube.com/watch?v=XpBGwZNyUh0&list=PLPaoO-vpZnumdcb4tZc4x5Q-v7CkrQ6M-
+

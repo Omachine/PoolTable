@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\shaders">
+      <UniqueIdentifier>{e7c0e075-a0f9-47c6-a848-295ab196f2fa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\textures">
+      <UniqueIdentifier>{5aedfe21-4fec-4797-a3f1-3dd52c84f8eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\object">
+      <UniqueIdentifier>{affc323e-d062-4f31-9188-57b4f4a7d43e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\material">
+      <UniqueIdentifier>{d684b607-58dd-4d1f-bbba-749ae51f2b85}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stb_image.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadShaders.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LoadBall.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadShaders.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadBall.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="triangles.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="triangles.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="MesaBilhar.vert">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="MesaBilhar.frag">
+      <Filter>Resource Files\shaders</Filter>
+    </None>
+    <None Include="Ball1.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball2.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball3.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball4.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball5.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball6.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball7.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball8.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball9.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball10.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball11.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball12.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball13.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball14.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+    <None Include="Ball15.mtl">
+      <Filter>Resource Files\material</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="PoolBalluv7.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv8.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv9.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv10.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv11.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv12.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv13.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv14.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv15.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv1.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv2.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv3.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv4.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv5.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="PoolBalluv6.jpg">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="References.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+</Project>
