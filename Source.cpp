@@ -299,79 +299,79 @@ int main(void)
 	//cria e carrega as bolas
 	LoadBall::Ball ball1;
 	ball1.BindShader(ballProgram, 1);
-	ball1.Load("Ball1.obj");
+	ball1.Load("Objects/Ball1.obj");
 	ball1.Install();
 
 	
 	LoadBall::Ball ball2;
 	ball2.BindShader(ballProgram, 2);
-	ball2.Load("Ball2.obj");
+	ball2.Load("Objects/Ball2.obj");
 	ball2.Install();
 	
 	
 	LoadBall::Ball ball3;
 	ball3.BindShader(ballProgram, 3);
-	ball3.Load("Ball3.obj");
+	ball3.Load("Objects/Ball3.obj");
 	ball3.Install();
 
 	LoadBall::Ball ball4;
 	ball4.BindShader(ballProgram, 4);
-	ball4.Load("Ball4.obj");
+	ball4.Load("Objects/Ball4.obj");
 	ball4.Install();
 
 	LoadBall::Ball ball5;
 	ball5.BindShader(ballProgram, 5);
-	ball5.Load("Ball5.obj");
+	ball5.Load("Objects/Ball5.obj");
 	ball5.Install();
 
 	LoadBall::Ball ball6;
 	ball6.BindShader(ballProgram, 6);
-	ball6.Load("Ball6.obj");
+	ball6.Load("Objects/Ball6.obj");
 	ball6.Install();
 
 	LoadBall::Ball ball7;
 	ball7.BindShader(ballProgram, 7);
-	ball7.Load("Ball7.obj");
+	ball7.Load("Objects/Ball7.obj");
 	ball7.Install();
 
 	LoadBall::Ball ball8;
 	ball8.BindShader(ballProgram, 8);
-	ball8.Load("Ball8.obj");
+	ball8.Load("Objects/Ball8.obj");
 	ball8.Install();
 
 	LoadBall::Ball ball9;
 	ball9.BindShader(ballProgram, 9);
-	ball9.Load("Ball9.obj");
+	ball9.Load("Objects/Ball9.obj");
 	ball9.Install();
 
 	LoadBall::Ball ball10;
 	ball10.BindShader(ballProgram, 10);
-	ball10.Load("Ball10.obj");
+	ball10.Load("Objects/Ball10.obj");
 	ball10.Install();
 
 	LoadBall::Ball ball11;
 	ball11.BindShader(ballProgram, 11);
-	ball11.Load("Ball11.obj");
+	ball11.Load("Objects/Ball11.obj");
 	ball11.Install();
 
 	LoadBall::Ball ball12;
 	ball12.BindShader(ballProgram, 12);
-	ball12.Load("Ball12.obj");
+	ball12.Load("Objects/Ball12.obj");
 	ball12.Install();
 
 	LoadBall::Ball ball13;
 	ball13.BindShader(ballProgram, 13);
-	ball13.Load("Ball13.obj");
+	ball13.Load("Objects/Ball13.obj");
 	ball13.Install();
 
 	LoadBall::Ball ball14;
 	ball14.BindShader(ballProgram, 14);
-	ball14.Load("Ball14.obj");
+	ball14.Load("Objects/Ball14.obj");
 	ball14.Install();
 
 	LoadBall::Ball ball15;
 	ball15.BindShader(ballProgram, 15);
-	ball15.Load("Ball15.obj");
+	ball15.Load("Objects/Ball15.obj");
 	ball15.Install();
 
 
