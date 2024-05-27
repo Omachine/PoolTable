@@ -239,7 +239,7 @@ namespace LoadBall
 		{
 			
 			//ler a primeira palavra da linha
-			int res = fscanf(mtlFile, "%s", lineHeader, sizeof(lineHeader));
+			int res = fscanf_s(mtlFile, "%s", lineHeader, sizeof(lineHeader));
 			if (res == EOF)
 				break;
 			
@@ -253,19 +253,19 @@ namespace LoadBall
 			else if (strcmp(lineHeader, "Kd") == 0)
 			{
 				vec3 diffuse;
-				fscanf(mtlFile, "%f %f %f\n", &diffuse.x, &diffuse.y, &diffuse.z);
+				fscanf_s(mtlFile, "%f %f %f\n", &diffuse.x, &diffuse.y, &diffuse.z);
 			}
 			//se a linha começa com Ks, então é um specular
 			else if (strcmp(lineHeader, "Ks") == 0)
 			{
 				vec3 specular;
-				fscanf(mtlFile, "%f %f %f\n", &specular.x, &specular.y, &specular.z);
+				fscanf_s(mtlFile, "%f %f %f\n", &specular.x, &specular.y, &specular.z);
 			}
 			//se a linha começa com Ns, então é um shininess
 			else if (strcmp(lineHeader, "Ns") == 0)
 			{
 				float shininess;
-				fscanf(mtlFile, "%f\n", &shininess);
+				fscanf_s(mtlFile, "%f\n", &shininess);
 			}
 			else if (strcmp(lineHeader, "map_Kd") == 0) {
 				char textureFilename[128];
@@ -273,7 +273,6 @@ namespace LoadBall
 				LoadTexture(textureFilename);
 			}
 		}
-
 	}
 
 	void Ball::LoadTexture(const char* texture_filepath) {
