@@ -14,8 +14,10 @@ namespace LoadBall
 	class Ball
 	{
 	private: 
-		GLuint VAOs;
-		GLuint Buffers;
+		GLuint VAO;
+		GLuint BufferV;
+		GLuint BufferU;
+		GLuint BufferN;
 		GLuint ShaderProgram;
 		GLuint textureIndices;
 

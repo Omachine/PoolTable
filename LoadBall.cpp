@@ -124,53 +124,38 @@ namespace LoadBall
 	void Ball::Install(void)
 	{
 		// Generate and bind the VAO
-		glGenVertexArrays(1, &VAOs);
-		glBindVertexArray(VAOs);
-
+		glGenVertexArrays(1, &VAO);
+		glBindVertexArray(VAO);
 		
 		// Generate and bind the VBO for vertices
-		glGenBuffers(1, &Buffers);
-		glBindBuffer(GL_ARRAY_BUFFER, Buffers);
+		glGenBuffers(1, &BufferV);
+		glBindBuffer(GL_ARRAY_BUFFER, BufferV);
+		glBufferStorage(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), vertices.data(), 0);
+
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+		glEnableVertexAttribArray(0);
+
+		// Generate and bind the VBO for vertices
+		glGenBuffers(1, &BufferU);
+		glBindBuffer(GL_ARRAY_BUFFER, BufferU);
+		glBufferStorage(GL_ARRAY_BUFFER, uvs.size() * sizeof(vec2), uvs.data(), 0);
+
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 0, (void*) 0);
+		glEnableVertexAttribArray(2);
+
+
+		// Generate and bind the VBO for vertices
+		glGenBuffers(1, &BufferN);
+		glBindBuffer(GL_ARRAY_BUFFER, BufferN);
+		glBufferStorage(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), normals.data(), 0);
+
+		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		//glEnableVertexAttribArray(0);
 
 		// Apply a scale to reduce the size
 		float scale = 0.004f;
 		for (size_t i = 0; i < vertices.size(); i++) {
 			vertices[i] *= scale;
-		}
-
-		// Store the data in the VBO
-		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), vertices.data(), GL_STATIC_DRAW);
-
-		// Configure the data
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0 , (void*)0);
-		glEnableVertexAttribArray(0);
-
-		GLuint normalBuffer;
-		// Generate and bind the VBO for normals
-		glGenBuffers(1, &normalBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, normalBuffer);
-		glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), normals.data(), GL_STATIC_DRAW);
-
-		// Configure the data
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(1);
-
-		GLuint uvBuffer;
-		// Generate and bind the VBO for texture coordinates
-		glGenBuffers(1, &uvBuffer);
-		glBindBuffer(GL_ARRAY_BUFFER, uvBuffer);
-		glBufferData(GL_ARRAY_BUFFER, uvs.size() * sizeof(vec2), uvs.data(), GL_STATIC_DRAW);
-
-		// Configure the data
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
-		glEnableVertexAttribArray(2);
-
-		// Create a VBO for the textures
-		GLint texture = glGetProgramResourceLocation(ShaderProgram, GL_UNIFORM, "TexSampler");
-		glProgramUniform1i(ShaderProgram, texture, 0);
-		GLenum error = glGetError();
-		if (error != GL_NO_ERROR) {
-			std::cout << "OpenGL Error: " << error << std::endl;
 		}
 	}
 
@@ -179,17 +164,17 @@ namespace LoadBall
 	void Ball::Render(glm::vec3 position, glm::vec3 orientation)
 	{
 		// Vincula o Vertex Array Object (VAO). O VAO contém as configurações dos buffers de dados e atributos do vértice.
-		glBindVertexArray(VAOs);
+		glBindVertexArray(VAO);
 
 		// Vincula o programa de shader. Este programa é usado para renderizar o modelo.
 		glUseProgram(ShaderProgram);
 
 		// Cria a matriz de modelo. Esta matriz é usada para transformar os vértices do modelo.
 		mat4 model = mat4(1.0f); // Inicia com a matriz identidade
+		model = rotate(model, orientation.x, vec3(1.0f, 0.0f, 0.0f)); // Aplica uma rotação no eixo x
+		model = rotate(model, orientation.y, vec3(0.0f, 1.0f, 0.0f)); // Aplica uma rotação no eixo y
+		model = rotate(model, orientation.z, vec3(0.0f, 0.0f, 1.0f)); // Aplica uma rotação no eixo z
 		model = translate(model, position); // Aplica uma translação para a posição especificada
-		model = rotate(model, radians(orientation.x), vec3(1.0f, 0.0f, 0.0f)); // Aplica uma rotação no eixo x
-		model = rotate(model, radians(orientation.y), vec3(0.0f, 1.0f, 0.0f)); // Aplica uma rotação no eixo y
-		model = rotate(model, radians(orientation.z), vec3(0.0f, 0.0f, 1.0f)); // Aplica uma rotação no eixo z
 
 		// Cria a matriz de projeção. Esta matriz é usada para transformar as coordenadas 3D do modelo para coordenadas 2D na tela.
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);

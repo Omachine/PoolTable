@@ -144,7 +144,7 @@ void drawTable(GLuint tableProgram, mat4 proj, mat4 view)
 	glUseProgram(tableProgram);
 
 	//aplica rotação do modelo
-	model = rotate(model, radians(rotationAngle.y), vec3(0.0f, 1.0f, 0.0f));
+	model = rotate(model, rotationAngle.y, vec3(0.0f, 1.0f, 0.0f));
 
 	//defenir as matrizes de model , view e projection
 	
