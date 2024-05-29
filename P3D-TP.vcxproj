@@ -137,42 +137,10 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Ball1.mtl" />
-    <None Include="Ball10.mtl" />
-    <None Include="Ball11.mtl" />
-    <None Include="Ball12.mtl" />
-    <None Include="Ball13.mtl" />
-    <None Include="Ball14.mtl" />
-    <None Include="Ball15.mtl" />
-    <None Include="Ball2.mtl" />
-    <None Include="Ball3.mtl" />
-    <None Include="Ball4.mtl" />
-    <None Include="Ball5.mtl" />
-    <None Include="Ball6.mtl" />
-    <None Include="Ball7.mtl" />
-    <None Include="Ball8.mtl" />
-    <None Include="Ball9.mtl" />
     <None Include="MesaBilhar.frag" />
     <None Include="MesaBilhar.vert" />
     <None Include="triangles.frag" />
     <None Include="triangles.vert" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="PoolBalluv1.jpg" />
-    <Image Include="PoolBalluv10.jpg" />
-    <Image Include="PoolBalluv11.jpg" />
-    <Image Include="PoolBalluv12.jpg" />
-    <Image Include="PoolBalluv13.jpg" />
-    <Image Include="PoolBalluv14.jpg" />
-    <Image Include="PoolBalluv15.jpg" />
-    <Image Include="PoolBalluv2.jpg" />
-    <Image Include="PoolBalluv3.jpg" />
-    <Image Include="PoolBalluv4.jpg" />
-    <Image Include="PoolBalluv5.jpg" />
-    <Image Include="PoolBalluv6.jpg" />
-    <Image Include="PoolBalluv7.jpg" />
-    <Image Include="PoolBalluv8.jpg" />
-    <Image Include="PoolBalluv9.jpg" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="References.txt" />

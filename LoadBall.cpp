@@ -149,8 +149,8 @@ namespace LoadBall
 		glBindBuffer(GL_ARRAY_BUFFER, BufferN);
 		glBufferStorage(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), normals.data(), 0);
 
-		//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-		//glEnableVertexAttribArray(0);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		glEnableVertexAttribArray(1);
 
 		// Apply a scale to reduce the size
 		float scale = 0.004f;
@@ -180,21 +180,27 @@ namespace LoadBall
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 		// Cria a matriz de visualização. Esta matriz é usada para transformar as coordenadas do modelo para o espaço da câmera.
-		glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 3.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 10.0f, 25.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
-		
+		mat4 ModelView = view * model;
+
+		mat3 NormalMatrix = glm::inverseTranspose(glm::mat3(ModelView));
 
 		// Passa as matrizes para o shader. O shader usa essas matrizes para transformar os vértices do modelo.
-		GLuint mvp = glGetUniformLocation(ShaderProgram, "MVP");
+		GLuint m = glGetUniformLocation(ShaderProgram, "Model");
+		GLuint v = glGetUniformLocation(ShaderProgram, "View");
+		GLuint p = glGetUniformLocation(ShaderProgram, "Projection");
+		GLuint mv = glGetUniformLocation(ShaderProgram, "ModelView");
+		GLuint n = glGetUniformLocation(ShaderProgram, "NormalMatrix");
 
-		glUniformMatrix4fv(mvp, 1, GL_FALSE, value_ptr(projection * view * model));
+		glUniformMatrix4fv(m, 1, GL_FALSE, value_ptr(model));
+		glUniformMatrix4fv(v, 1, GL_FALSE, value_ptr(view));
+		glUniformMatrix4fv(p, 1, GL_FALSE, value_ptr(projection));
+		glUniformMatrix4fv(mv, 1, GL_FALSE, value_ptr(ModelView));
+		glUniformMatrix3fv(n, 1, GL_FALSE, value_ptr(projection));
 
 		// Vincula a textura
 		glBindTexture(GL_TEXTURE_2D, textureIndices);
-
-		if (vertices.size() > std::numeric_limits<GLsizei>::max()) {
-			throw std::overflow_error("Too many vertices, can't cast to GLsizei.");
-		}
 
 		// Desenha o objeto. Esta chamada renderiza os triângulos do modelo usando os dados do VAO.
 		glDrawArrays(GL_TRIANGLES, 0, vertices.size());

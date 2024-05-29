@@ -45,30 +45,27 @@ GLuint Indices;
 
 vec3 BallPositions[] = //vec3 position od random 15 balls and are on top of the table
 {
-	vec3(-8.0f, 1.0f, 0.0f),
-	vec3(-7.0f, 1.0f, 1.0f),
-	vec3(-7.0f, 1.0f, -1.0f),
-	vec3(-6.0f, 1.0f, 2.0f),
-	vec3(-6.0f, 1.0f, 0.0f),
-	vec3(-6.0f, 1.0f, -2.0f),
-	vec3(-5.0f, 1.0f, 3.0f),
-	vec3(-5.0f, 1.0f, 1.0f),
-	vec3(-5.0f, 1.0f, -1.0f),
-	vec3(-5.0f, 1.0f, -3.0f),
-	vec3(-4.0f, 1.0f, 4.0f),
-	vec3(-4.0f, 1.0f, 2.0f),
-	vec3(-4.0f, 1.0f, 0.0f),
-	vec3(-4.0f, 1.0f, -2.0f),
-	vec3(-4.0f, 1.0f, -4.0f)
+	vec3(3.0f, 1.4f, 0.0f),
+	vec3(4.0f, 1.4f, 1.0f),
+	vec3(4.0f, 1.4f, -1.0f),
+	vec3(5.0f, 1.4f, 2.0f),
+	vec3(5.0f, 1.4f, 0.0f),
+	vec3(5.0f, 1.4f, -2.0f),
+	vec3(6.0f, 1.4f, 3.0f),
+	vec3(6.0f, 1.4f, 1.0f),
+	vec3(6.0f, 1.4f, -1.0f),
+	vec3(6.0f, 1.4f, -3.0f),
+	vec3(7.0f, 1.4f, 4.0f),
+	vec3(7.0f, 1.4f, 2.0f),
+	vec3(7.0f, 1.4f, 0.0f),
+	vec3(7.0f, 1.4f, -2.0f),
+	vec3(7.0f, 1.4f, -4.0f)
 };
-
-
-vec3 rotationAngle(0.0f, 0.0f, 0.0f);
 vec2 clickPos;
 vec2 prevClickPos;
 
 //matrizes de model e projection
-mat4 model(1.0f);
+float rotation = 0.0f;
 mat4 projection(1.0f);
 
 //função de callback para zoom
@@ -86,8 +83,6 @@ void scrollCallBack(GLFWwindow* window, double xoffset, double yoffset)
 	}
 }
 
-
-
 //check do click do rato
 void mouseClickCallback(GLFWwindow* window, int button, int action, int mods)
 {
@@ -100,16 +95,6 @@ void mouseClickCallback(GLFWwindow* window, int button, int action, int mods)
 		clickPos = vec2(xpos, ypos);
 		prevClickPos = clickPos;
 	}
-	//se o botão esquerdo do rato for libertado
-	else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
-	{
-		//stop rotation
-		rotationAngle.x = 0.0f;
-		rotationAngle.y = 0.0f;
-
-	}
-
-	model = rotate(model, radians(rotationAngle.y), vec3(1.0f, 0.0f, 0.0f));
 }
 
 //função de callback para o movimento do rato
@@ -128,13 +113,13 @@ void mouseMoveCallback(GLFWwindow* window, double xpos, double ypos)
 		const float sensitivity = 0.01f;
 
 		//calcular a rotação
-		rotationAngle.y += diff.x * sensitivity;	
+		rotation += diff.x * sensitivity;
 	}
 }
 
 //criação da mesa
 
-void drawTable(GLuint tableProgram, mat4 proj, mat4 view)
+void drawTable(GLuint tableProgram)
 {
 
 	//Vincular o VAO
@@ -144,13 +129,18 @@ void drawTable(GLuint tableProgram, mat4 proj, mat4 view)
 	glUseProgram(tableProgram);
 
 	//aplica rotação do modelo
-	model = rotate(model, rotationAngle.y, vec3(0.0f, 1.0f, 0.0f));
+	mat4 model = mat4(1.0f); // Inicia com a matriz identidade
+	model = rotate(model, rotation, vec3(0.0f, 1.0f, 0.0f)); // Aplica uma rotação no eixo y
 
-	//defenir as matrizes de model , view e projection
+	// Cria a matriz de projeção. Esta matriz é usada para transformar as coordenadas 3D do modelo para coordenadas 2D na tela.
+	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
+
+	// Cria a matriz de visualização. Esta matriz é usada para transformar as coordenadas do modelo para o espaço da câmera.
+	glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 10.0f, 25.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	
 	GLuint mvp = glGetUniformLocation(tableProgram, "MVP");
 
-	glUniformMatrix4fv(mvp, 1, GL_FALSE, value_ptr(proj * view * model));
+	glUniformMatrix4fv(mvp, 1, GL_FALSE, value_ptr(projection * view * model));
 
 	
 	//renderiza os elementos atuais do VAO
@@ -276,6 +266,39 @@ int main(void)
 
 	//usa o programa das bolas
 	glUseProgram(ballProgram);
+
+	// Fonte de luz ambiente global
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "ambientLight.ambient"), 1, glm::value_ptr(glm::vec3(0.1, 0.1, 0.1)));
+
+	// Fonte de luz direcional
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "directionalLight.direction"), 1, glm::value_ptr(glm::vec3(1.0, 0.0, 0.0)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "directionalLight.ambient"), 1, glm::value_ptr(glm::vec3(0.2, 0.2, 0.2)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "directionalLight.diffuse"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "directionalLight.specular"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0)));
+
+	// Fonte de luz pontual #1
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[0].position"), 1, glm::value_ptr(glm::vec3(0.0, 0.0, 5.0)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[0].ambient"), 1, glm::value_ptr(glm::vec3(0.1, 0.1, 0.1)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[0].diffuse"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[0].specular"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0)));
+	glProgramUniform1f(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[0].constant"), 1.0f);
+	glProgramUniform1f(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[0].linear"), 0.06f);
+	glProgramUniform1f(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[0].quadratic"), 0.02f);
+
+	// Fonte de luz pontual #2
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[1].position"), 1, glm::value_ptr(glm::vec3(-2.0, 2.0, 5.0)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[1].ambient"), 1, glm::value_ptr(glm::vec3(0.1, 0.1, 0.1)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[1].diffuse"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[1].specular"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0)));
+	glProgramUniform1f(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[1].constant"), 1.0f);
+	glProgramUniform1f(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[1].linear"), 0.06f);
+	glProgramUniform1f(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "pointLight[1].quadratic"), 0.02f);
+
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "material.emissive"), 1, glm::value_ptr(glm::vec3(0.0, 0.0, 0.0)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "material.ambient"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "material.diffuse"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0)));
+	glProgramUniform3fv(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "material.specular"), 1, glm::value_ptr(glm::vec3(1.0, 1.0, 1.0)));
+	glProgramUniform1f(ballProgram, glGetProgramResourceLocation(ballProgram, GL_UNIFORM, "material.shininess"), 12.0f);
 
 	// Array de informações dos shaders para o programa da mesa
 	ShaderInfo mesashaders[] = {
@@ -414,26 +437,26 @@ int main(void)
 		glUseProgram(ballProgram);
 
 		//desenhar as bolas
-		ball1.Render(BallPositions[0], rotationAngle);
-		ball2.Render(BallPositions[1], rotationAngle);
-		ball3.Render(BallPositions[2], rotationAngle);
-		ball4.Render(BallPositions[3], rotationAngle);
-		ball5.Render(BallPositions[4], rotationAngle);
-		ball6.Render(BallPositions[5], rotationAngle);
-		ball7.Render(BallPositions[6], rotationAngle);
-		ball8.Render(BallPositions[7], rotationAngle);
-		ball9.Render(BallPositions[8], rotationAngle);
-		ball10.Render(BallPositions[9], rotationAngle);
-		ball11.Render(BallPositions[10], rotationAngle);
-		ball12.Render(BallPositions[11], rotationAngle);
-		ball13.Render(BallPositions[12], rotationAngle);
-		ball14.Render(BallPositions[13], rotationAngle);
-		ball15.Render(BallPositions[14], rotationAngle);
+		ball1.Render(BallPositions[0], vec3(0.0f, rotation, 0.0f));
+		ball2.Render(BallPositions[1], vec3(0.0f, rotation, 0.0f));
+		ball3.Render(BallPositions[2], vec3(0.0f, rotation, 0.0f));
+		ball4.Render(BallPositions[3], vec3(0.0f, rotation, 0.0f));
+		ball5.Render(BallPositions[4], vec3(0.0f, rotation, 0.0f));
+		ball6.Render(BallPositions[5], vec3(0.0f, rotation, 0.0f));
+		ball7.Render(BallPositions[6], vec3(0.0f, rotation, 0.0f));
+		ball8.Render(BallPositions[7], vec3(0.0f, rotation, 0.0f));
+		ball9.Render(BallPositions[8], vec3(0.0f, rotation, 0.0f));
+		ball10.Render(BallPositions[9], vec3(0.0f, rotation, 0.0f));
+		ball11.Render(BallPositions[10], vec3(0.0f, rotation, 0.0f));
+		ball12.Render(BallPositions[11], vec3(0.0f, rotation, 0.0f));
+		ball13.Render(BallPositions[12], vec3(0.0f, rotation, 0.0f));
+		ball14.Render(BallPositions[13], vec3(0.0f, rotation, 0.0f));
+		ball15.Render(BallPositions[14], vec3(0.0f, rotation, 0.0f));
 
 
 		
 		//desenha mesa
-		drawTable(tableProgram, proj, view);
+		drawTable(tableProgram);
 	
 
 		glfwSwapBuffers(window);
