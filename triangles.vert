@@ -10,12 +10,14 @@ layout( location = 0 ) in vec3 vPosition;
 layout( location = 2 ) in vec2 vTextureCoords;
 layout( location = 1 ) in vec3 vNormal;
 
+// Variáveis de saída para o fragment shader
 out vec3 vPositionEyeSpace;
 out vec3 vNormalEyeSpace;
 out vec2 textureCoord;
 
 void main()
 { 
+	// Transformar a posição do vértice.
 	mat4 ModelView = View * Model;
 	// Posição do vértice em coordenadas do olho.
 	vPositionEyeSpace = (ModelView * vec4(vPosition, 1.0f)).xyz;
