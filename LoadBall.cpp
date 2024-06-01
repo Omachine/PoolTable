@@ -127,6 +127,11 @@ namespace LoadBall
 		glGenVertexArrays(1, &VAO);
 		glBindVertexArray(VAO);
 		
+		// Apply a scale to reduce the size
+		float scale = 0.8f;
+		for (size_t i = 0; i < vertices.size(); i++) {
+			vertices[i] *= scale;
+		}
 		// Generate and bind the VBO for vertices
 		glGenBuffers(1, &BufferV);
 		glBindBuffer(GL_ARRAY_BUFFER, BufferV);
@@ -152,11 +157,7 @@ namespace LoadBall
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 		glEnableVertexAttribArray(1);
 
-		// Apply a scale to reduce the size
-		float scale = 0.004f;
-		for (size_t i = 0; i < vertices.size(); i++) {
-			vertices[i] *= scale;
-		}
+		
 	}
 
 

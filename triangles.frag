@@ -5,6 +5,10 @@ uniform mat4 View;
 uniform mat4 ModelView;		// View * Model
 
 uniform sampler2D TexSampler;                // Sampler de textura
+uniform bool ambientLightOn;
+uniform bool directionalLightOn;
+uniform bool pointLightOn;
+
 
 // Estrutura da fonte de luz ambiente global
 struct AmbientLight {
@@ -81,36 +85,43 @@ vec4 calcSpotLight(SpotLight light, out vec4 ambient);
 
 void main()
 {
-	// Cor do Material
-	// Se a textura não for nula, então a cor do material é a cor da textura.
-	diffuseColor = texture(TexSampler, textureCoord).rgb;
+    // Material color
+    // If the texture is not null, then the material color is the color of the texture.
+    diffuseColor = texture(TexSampler, textureCoord).rgb;
 
-	// Cálculo da componente emissiva do material.
-	vec4 emissive = vec4(material.emissive, 1.0);
+    // Calculation of the emissive component of the material.
+    vec4 emissive = vec4(material.emissive, 1.0);
 
-	// Luz Ambiente Global
-	vec4 ambient;
+    // Global Ambient Light
+    vec4 ambient;
 
-	// Cálculo do efeito da iluminação no fragmento.
-	vec4 light[4];
-	vec4 ambientTmp;
-	// Contribuição da fonte de luz ambiente
-	ambient = calcAmbientLight(ambientLight);
-	// Contribuição da fonte de luz direcional
-	light[0] = calcDirectionalLight(directionalLight, ambientTmp);
-	ambient += ambientTmp;
-	// Contribuição de cada fonte de luz Pontual
-	for(int i=0; i<2; i++) {
-		light[i+1] = calcPointLight(pointLight[i], ambientTmp);
-		ambient += ambientTmp;
-	}
-	// Contribuição da fonte de luz cónica
-	light[3] = calcSpotLight(spotLight, ambientTmp);
-	ambient += ambientTmp;
+    // Calculation of the effect of lighting on the fragment.
+    vec4 light[4];
+    vec4 ambientTmp;
+    // Contribution of the ambient light source
+    if (ambientLightOn) {
+        ambient = calcAmbientLight(ambientLight);
+    }
+    // Contribution of the directional light source
+    if (directionalLightOn) {
+        light[0] = calcDirectionalLight(directionalLight, ambientTmp);
+        ambient += ambientTmp;
+    }
+    // Contribution of each point light source
+    for(int i=0; i<2; i++) {
+        if (pointLightOn) {
+            light[i+1] = calcPointLight(pointLight[i], ambientTmp);
+            ambient += ambientTmp;
+        }
+    }
+    // Contribution of the spotlight source
+    light[3] = calcSpotLight(spotLight, ambientTmp);
+    ambient += ambientTmp;
 
-	// Cálculo da cor final do fragmento.
-	fColor = emissive + (ambient/4) + light[0] + light[1] + light[2] + light[3];
+    // Calculation of the final color of the fragment.
+    fColor = emissive + (ambient/4) + light[0] + light[1] + light[2] + light[3];
 }
+
 
 vec4 calcAmbientLight(AmbientLight light) {
 	// Cálculo da contribuição da fonte de luz ambiente global, para a cor do objeto.
@@ -181,6 +192,6 @@ vec4 calcPointLight(PointLight light, out vec4 ambient) {
 
 vec4 calcSpotLight(SpotLight light, out vec4 ambient) 
 {
-	// Colocar aqui todo o código necessário para calcular a contribuição da fonte de luz cónica para a cor final do fragmento.
+
 	return vec4(0.0);
 }

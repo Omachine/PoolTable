@@ -68,7 +68,7 @@ vec2 prevClickPos;
 float rotation = 0.0f;
 mat4 projection(1.0f);
 
-//função de callback para zoom
+//função de callback para o scroll do rato para zoom
 void scrollCallBack(GLFWwindow* window, double xoffset, double yoffset)
 {
 	//zoom in
@@ -81,7 +81,33 @@ void scrollCallBack(GLFWwindow* window, double xoffset, double yoffset)
 	{
 		zoom -= fabs(zoom) * 0.1f;
 	}
+	cout << "Zoom: " << zoom << endl;
 }
+
+bool ambientLightOn = true;
+bool directionalLightOn = true;
+bool pointLightOn = true;
+
+void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (action == GLFW_PRESS) {
+		switch (key) {
+		case GLFW_KEY_1:
+			// Toggle ambient light
+			ambientLightOn = !ambientLightOn;
+			break;
+		case GLFW_KEY_2:
+			// Toggle directional light
+			directionalLightOn = !directionalLightOn;
+			break;
+		case GLFW_KEY_3:
+			// Toggle point light
+			pointLightOn = !pointLightOn;
+			break;
+		}
+	}
+}
+
 
 //check do click do rato
 void mouseClickCallback(GLFWwindow* window, int button, int action, int mods)
@@ -242,6 +268,8 @@ int main(void)
 	glfwSetScrollCallback(window, scrollCallBack);
 	glfwSetMouseButtonCallback(window, mouseClickCallback);
 	glfwSetCursorPosCallback(window, mouseMoveCallback);
+	glfwSetKeyCallback(window, keyCallback);
+
 	
 	//cor background
 	glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
@@ -418,6 +446,10 @@ int main(void)
 	//definição de matrizes
 	proj = perspective(radians(45.0f), (float)WIDTH / (float)HEIGHT, 0.1f, 150.0f);
 
+	// Get the location of the uniform variables
+	GLint ambientLightUniform = glGetUniformLocation(ballProgram, "ambientLightOn");
+	GLint directionalLightUniform = glGetUniformLocation(ballProgram, "directionalLightOn");
+	GLint pointLightUniform = glGetUniformLocation(ballProgram, "pointLightOn");
 
 	while (!glfwWindowShouldClose(window)) {
 
@@ -429,6 +461,14 @@ int main(void)
 		view = lookAt(position, target, camUp);
 		//matriz de zoom
 		//mat4 matZoom = scale(mat4(1.0f), vec3(zoom));
+		 // Bind your shader program
+		glUseProgram(ballProgram);
+
+		// Set the uniform variables
+		glUniform1i(ambientLightUniform, ambientLightOn);
+		glUniform1i(directionalLightUniform, directionalLightOn);
+		glUniform1i(pointLightUniform, pointLightOn);
+
 
 		//bind do VAO ao OpenGl
 		glBindVertexArray(VAOs);
