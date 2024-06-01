@@ -27,6 +27,8 @@ namespace LoadBall
 		vector<vec2> uvs;
 		vector<vec3> normals;
 
+		float zoom = 0.0f;
+
 		//declaração das funções
 		void Install(void);
 		void Render(glm::vec3 position, glm::vec3 orientation);

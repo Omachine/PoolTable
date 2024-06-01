@@ -136,7 +136,7 @@ void drawTable(GLuint tableProgram)
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 	// Cria a matriz de visualização. Esta matriz é usada para transformar as coordenadas do modelo para o espaço da câmera.
-	glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 10.0f, 25.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 10.0f, zoom), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	
 	GLuint mvp = glGetUniformLocation(tableProgram, "MVP");
 
@@ -411,7 +411,7 @@ int main(void)
 	vec3 target(vec3(0.0f));
 
 	//calculos da camera
-	vec3 camFront = position-target;
+	vec3 camFront = position;
 	vec3 camRight = cross(vec3(0.0f, 1.0f, 0.0f), camFront);
 	vec3 camUp(0.0f, 1.0f, 0.0f);
 
@@ -425,7 +425,7 @@ int main(void)
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// posição camera
-		position = (vec3(0.0f, 10.0f, zoom));
+		position = vec3(0.0f, 10.0f, zoom);
 		view = lookAt(position, target, camUp);
 		//matriz de zoom
 		//mat4 matZoom = scale(mat4(1.0f), vec3(zoom));
@@ -437,20 +437,35 @@ int main(void)
 		glUseProgram(ballProgram);
 
 		//desenhar as bolas
+		ball1.zoom = zoom;
 		ball1.Render(BallPositions[0], vec3(0.0f, rotation, 0.0f));
+		ball2.zoom = zoom;
 		ball2.Render(BallPositions[1], vec3(0.0f, rotation, 0.0f));
+		ball3.zoom = zoom;
 		ball3.Render(BallPositions[2], vec3(0.0f, rotation, 0.0f));
+		ball4.zoom = zoom;
 		ball4.Render(BallPositions[3], vec3(0.0f, rotation, 0.0f));
+		ball5.zoom = zoom;
 		ball5.Render(BallPositions[4], vec3(0.0f, rotation, 0.0f));
+		ball6.zoom = zoom;
 		ball6.Render(BallPositions[5], vec3(0.0f, rotation, 0.0f));
+		ball7.zoom = zoom;
 		ball7.Render(BallPositions[6], vec3(0.0f, rotation, 0.0f));
+		ball8.zoom = zoom;
 		ball8.Render(BallPositions[7], vec3(0.0f, rotation, 0.0f));
+		ball9.zoom = zoom;
 		ball9.Render(BallPositions[8], vec3(0.0f, rotation, 0.0f));
+		ball10.zoom = zoom;
 		ball10.Render(BallPositions[9], vec3(0.0f, rotation, 0.0f));
+		ball11.zoom = zoom;
 		ball11.Render(BallPositions[10], vec3(0.0f, rotation, 0.0f));
+		ball12.zoom = zoom;
 		ball12.Render(BallPositions[11], vec3(0.0f, rotation, 0.0f));
+		ball13.zoom = zoom;
 		ball13.Render(BallPositions[12], vec3(0.0f, rotation, 0.0f));
+		ball14.zoom = zoom;
 		ball14.Render(BallPositions[13], vec3(0.0f, rotation, 0.0f));
+		ball15.zoom = zoom;
 		ball15.Render(BallPositions[14], vec3(0.0f, rotation, 0.0f));
 
 

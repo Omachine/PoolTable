@@ -180,7 +180,7 @@ namespace LoadBall
 		glm::mat4 projection = glm::perspective(glm::radians(45.0f), 800.0f / 600.0f, 0.1f, 100.0f);
 
 		// Cria a matriz de visualização. Esta matriz é usada para transformar as coordenadas do modelo para o espaço da câmera.
-		glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 10.0f, 25.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 10.0f, zoom), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
 		mat4 ModelView = view * model;
 
